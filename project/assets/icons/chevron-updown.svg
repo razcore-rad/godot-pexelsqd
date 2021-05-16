@@ -4,23 +4,23 @@
    height="24"
    viewBox="0 0 24 24"
    fill="none"
-   stroke="#fff"
+   stroke="#d8dee9"
    stroke-width="2"
    stroke-linecap="round"
    stroke-linejoin="round"
-   class="feather feather-stop-circle"
+   class="feather feather-chevron-down"
    version="1.1"
-   id="svg1168"
-   sodipodi:docname="stop.svg"
+   id="svg4"
+   sodipodi:docname="chevron-updown.svg"
    inkscape:version="1.2-dev (ddf6b8e1ea, 2021-05-15)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs1172" />
+     id="defs8" />
   <sodipodi:namedview
-     id="namedview1170"
+     id="namedview6"
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
@@ -28,26 +28,28 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="false"
      showgrid="false"
-     inkscape:zoom="35.166667"
-     inkscape:cx="11.985782"
-     inkscape:cy="12"
+     inkscape:zoom="17.583333"
+     inkscape:cx="9.9810428"
+     inkscape:cy="11.829384"
      inkscape:window-width="1920"
      inkscape:window-height="1043"
      inkscape:window-x="1920"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1168" />
-  <circle
-     cx="12"
-     cy="12"
-     r="10"
-     id="circle1164"
-     style="stroke:#d08770" />
-  <rect
-     x="9"
-     y="9"
-     width="6"
-     height="6"
-     id="rect1166"
-     style="stroke:#d08770" />
+     inkscape:current-layer="svg4" />
+  <g
+     id="g829"
+     transform="translate(0,4.0000206)"
+     style="stroke:#88c0d0">
+    <polyline
+       points="6 9 12 15 18 9"
+       id="polyline2"
+       transform="translate(0,2)"
+       style="stroke:#88c0d0" />
+    <polyline
+       points="6 9 12 15 18 9"
+       id="polyline825"
+       transform="matrix(1,0,0,-1,0,13.707107)"
+       style="stroke:#88c0d0" />
+  </g>
 </svg>

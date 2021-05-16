@@ -4,14 +4,14 @@
    height="24"
    viewBox="0 0 24 24"
    fill="none"
-   stroke="#fff"
+   stroke="currentColor"
    stroke-width="2"
    stroke-linecap="round"
    stroke-linejoin="round"
-   class="feather feather-fast-forward"
+   class="feather feather-arrow-left"
    version="1.1"
    id="svg6"
-   sodipodi:docname="fast-forward.svg"
+   sodipodi:docname="arrow-right.svg"
    inkscape:version="1.2-dev (ddf6b8e1ea, 2021-05-15)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -21,28 +21,35 @@
      id="defs10" />
   <sodipodi:namedview
      id="namedview8"
-     pagecolor="#ffffff"
+     pagecolor="#a8a8a8"
      bordercolor="#666666"
      borderopacity="1.0"
+     objecttolerance="10.0"
+     gridtolerance="10.0"
+     guidetolerance="10.0"
      inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="false"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
      showgrid="false"
-     inkscape:zoom="35.166667"
-     inkscape:cx="2.6303318"
-     inkscape:cy="12"
+     inkscape:zoom="17.583334"
+     inkscape:cx="10.265402"
+     inkscape:cy="14.303317"
      inkscape:window-width="1920"
-     inkscape:window-height="1043"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg6" />
-  <polygon
-     points="13 19 22 12 13 5 13 19"
-     id="polygon2"
-     style="stroke:#88c0d0" />
-  <polygon
-     points="2 19 11 12 2 5 2 19"
-     id="polygon4"
-     style="stroke:#88c0d0" />
+  <line
+     x1="5"
+     y1="12"
+     x2="19"
+     y2="12"
+     id="line2"
+     style="stroke:#88c0d0;stroke-opacity:1" />
+  <polyline
+     points="12 19 5 12 12 5"
+     id="polyline4"
+     style="stroke:#88c0d0;stroke-opacity:1"
+     transform="rotate(180,12,12)" />
 </svg>

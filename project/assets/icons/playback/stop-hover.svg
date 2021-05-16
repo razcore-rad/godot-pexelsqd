@@ -11,7 +11,7 @@
    class="feather feather-stop-circle"
    version="1.1"
    id="svg1168"
-   sodipodi:docname="stop.svg"
+   sodipodi:docname="stop-hover.svg"
    inkscape:version="1.2-dev (ddf6b8e1ea, 2021-05-15)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -42,12 +42,12 @@
      cy="12"
      r="10"
      id="circle1164"
-     style="stroke:#d08770" />
+     style="stroke:#ebcb8b" />
   <rect
      x="9"
      y="9"
      width="6"
      height="6"
      id="rect1166"
-     style="stroke:#d08770" />
+     style="stroke:#ebcb8b" />
 </svg>

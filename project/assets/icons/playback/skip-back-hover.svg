@@ -8,19 +8,19 @@
    stroke-width="2"
    stroke-linecap="round"
    stroke-linejoin="round"
-   class="feather feather-stop-circle"
+   class="feather feather-skip-back"
    version="1.1"
-   id="svg1168"
-   sodipodi:docname="stop.svg"
+   id="svg1034"
+   sodipodi:docname="skip-back-hover.svg"
    inkscape:version="1.2-dev (ddf6b8e1ea, 2021-05-15)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs1172" />
+     id="defs1038" />
   <sodipodi:namedview
-     id="namedview1170"
+     id="namedview1036"
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
@@ -29,25 +29,23 @@
      inkscape:pagecheckerboard="false"
      showgrid="false"
      inkscape:zoom="35.166667"
-     inkscape:cx="11.985782"
+     inkscape:cx="2.6303317"
      inkscape:cy="12"
      inkscape:window-width="1920"
      inkscape:window-height="1043"
      inkscape:window-x="1920"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1168" />
-  <circle
-     cx="12"
-     cy="12"
-     r="10"
-     id="circle1164"
-     style="stroke:#d08770" />
-  <rect
-     x="9"
-     y="9"
-     width="6"
-     height="6"
-     id="rect1166"
-     style="stroke:#d08770" />
+     inkscape:current-layer="svg1034" />
+  <polygon
+     points="19 20 9 12 19 4 19 20"
+     id="polygon1030"
+     style="stroke:#a3be8c" />
+  <line
+     x1="5"
+     y1="19"
+     x2="5"
+     y2="5"
+     id="line1032"
+     style="stroke:#a3be8c" />
 </svg>

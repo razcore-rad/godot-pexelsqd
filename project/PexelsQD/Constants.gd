@@ -1,6 +1,6 @@
 class_name Constants
 
-
+const MIN_WINDOW_SIZE := Vector2(768, 480)
 const CONFIG_FILE := {
 	"path": "user://settings.ini",
 	"section": "pexels",

@@ -11,8 +11,8 @@
    class="feather feather-image"
    version="1.1"
    id="svg8"
-   sodipodi:docname="image.svg"
-   inkscape:version="1.2-dev (ac8c0b371e, 2021-05-09)"
+   sodipodi:docname="image-placeholder.svg"
+   inkscape:version="1.2-dev (ddf6b8e1ea, 2021-05-15)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +21,7 @@
      id="defs12" />
   <sodipodi:namedview
      id="namedview10"
-     pagecolor="#565656"
+     pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
      objecttolerance="10.0"
@@ -43,7 +43,7 @@
   <g
      id="g832"
      transform="matrix(21.12,0,0,21.12,-58.815002,-58.815002)"
-     style="stroke-width:0.181818;stroke-miterlimit:4;stroke-dasharray:none">
+     style="stroke-width:0.181818;stroke-miterlimit:4;stroke-dasharray:none;stroke:#4c566a">
     <rect
        x="3"
        y="3"
@@ -52,16 +52,16 @@
        rx="0.094696969"
        ry="0.094696969"
        id="rect2"
-       style="stroke-width:0.181818;stroke-miterlimit:4;stroke-dasharray:none" />
+       style="stroke-width:0.181818;stroke-miterlimit:4;stroke-dasharray:none;stroke:#4c566a" />
     <circle
        cx="8.5"
        cy="8.5"
        r="1.5"
        id="circle4"
-       style="stroke-width:0.181818;stroke-miterlimit:4;stroke-dasharray:none" />
+       style="stroke-width:0.181818;stroke-miterlimit:4;stroke-dasharray:none;stroke:#4c566a" />
     <polyline
        points="21 15 16 10 5 21"
        id="polyline6"
-       style="stroke-width:0.181818;stroke-miterlimit:4;stroke-dasharray:none" />
+       style="stroke-width:0.181818;stroke-miterlimit:4;stroke-dasharray:none;stroke:#4c566a" />
   </g>
 </svg>
