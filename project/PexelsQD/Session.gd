@@ -29,11 +29,12 @@ var _image_funcs := {
 	"jpg": funcref(_image, "load_jpg_from_buffer"),
 	"png": funcref(_image, "load_png_from_buffer")
 }
+var _config_file: ConfigFile = null
 var _http_request: HTTPRequest = null
 
 
-func _init(api_key: String, http_request: HTTPRequest) -> void:
-	PHOTO.headers[-1] = PHOTO.headers[-1].format({"api_key": api_key})
+func _init(config_file: ConfigFile, http_request: HTTPRequest) -> void:
+	_config_file = config_file
 	_http_request = http_request
 	_image_funcs.jpeg = _image_funcs.jpg
 	
@@ -49,6 +50,8 @@ func search(query: String) -> void:
 		"page": 1 if is_first else _rng.randi_range(1, _total_results)
 	}
 	
+	var api_key: String = _config_file.get_value(Constants.CONFIG_FILE.section, Constants.CONFIG_FILE.key, "")
+	PHOTO.headers[-1] = PHOTO.headers[-1].format({"api_key": api_key})
 	_http_request.request(PHOTO.search.format(params), PHOTO.headers)
 	var result: Array = yield(_http_request, "request_completed")
 	

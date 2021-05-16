@@ -41,18 +41,10 @@ onready var http_request: HTTPRequest = $HTTPRequest
 
 func _ready() -> void:
 	var config_file := _load_config()
-	var api_key: String = config_file.get_value(Constants.CONFIG_FILE.section, Constants.CONFIG_FILE.key, "")
-	_session = Session.new(api_key, http_request)
+	_session = Session.new(config_file, http_request)
 	_tr_image_placeholder = tr_image.texture
 	_tween_funcs[true] = funcref(tween, "start")
 	_tween_funcs[false] = funcref(tween, "stop_all")
-	
-	if not api_key.empty():
-		vbc_main.visible = true
-		pc_intro.visible = false
-	else:
-		vbc_main.visible = false
-		pc_intro.visible = true
 	
 	_session.connect("notified", self, "_notify")
 	pc_intro.connect("notified", self, "_notify")
@@ -78,6 +70,14 @@ func _ready() -> void:
 	OS.min_window_size = Constants.MIN_WINDOW_SIZE
 	pc_intro.setup(config_file)
 	rtl_help.bbcode_text = rtl_help.bbcode_text.format([Constants.DELTA])
+	
+	var api_key: String = config_file.get_value(Constants.CONFIG_FILE.section, Constants.CONFIG_FILE.key, "")
+	if not api_key.empty():
+		vbc_main.visible = true
+		pc_intro.visible = false
+	else:
+		vbc_main.visible = false
+		pc_intro.visible = true
 
 
 func _unhandled_input(event: InputEvent) -> void:
