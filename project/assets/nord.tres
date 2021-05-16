@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=18 format=2]
+[gd_resource type="Theme" load_steps=20 format=2]
 
 [ext_resource path="res://assets/fonts/default.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/icons/chevron-updown.svg" type="Texture" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://assets/icons/chevron-right.svg" type="Texture" id=5]
 [ext_resource path="res://assets/icons/x-circle.svg" type="Texture" id=6]
 [ext_resource path="res://assets/icons/square.svg" type="Texture" id=7]
+[ext_resource path="res://assets/fonts/default_code.tres" type="DynamicFont" id=8]
+[ext_resource path="res://assets/fonts/default_bold.tres" type="DynamicFont" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.180392, 0.203922, 0.25098, 1 )
@@ -94,5 +96,7 @@ ProgressBar/styles/fg = SubResource( 9 )
 RichTextLabel/colors/default_color = Color( 0.847059, 0.870588, 0.913725, 1 )
 RichTextLabel/colors/font_color_selected = Color( 0.180392, 0.203922, 0.25098, 1 )
 RichTextLabel/colors/selection_color = Color( 0.847059, 0.870588, 0.913725, 1 )
+RichTextLabel/fonts/bold_font = ExtResource( 9 )
+RichTextLabel/fonts/mono_font = ExtResource( 8 )
 SpinBox/icons/updown = ExtResource( 2 )
 VSeparator/styles/separator = SubResource( 10 )
