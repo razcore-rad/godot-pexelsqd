@@ -25,5 +25,5 @@ func _on_LineEdit_text_changed(new_text: String) -> void:
 		le.caret_position = old_caret_position - 1
 	else:
 		old_text = new_text
-		le.caret_position = old_caret_position
 		value = regex_match.get_string(1).to_int()
+		le.caret_position = old_caret_position
