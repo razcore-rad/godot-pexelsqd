@@ -50,6 +50,9 @@ func _ready() -> void:
 	if not api_key.empty():
 		vbc_main.visible = true
 		pc_intro.visible = false
+	else:
+		vbc_main.visible = false
+		pc_intro.visible = true
 	
 	_session.connect("notified", self, "_notify")
 	pc_intro.connect("notified", self, "_notify")
