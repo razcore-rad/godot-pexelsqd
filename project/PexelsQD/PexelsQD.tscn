@@ -482,9 +482,9 @@ visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 16.0
-margin_top = -368.0
-margin_right = 454.0
-margin_bottom = -18.0
+margin_top = -396.0
+margin_right = 472.0
+margin_bottom = -16.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 21 )
 __meta__ = {
@@ -494,25 +494,26 @@ __meta__ = {
 [node name="RichTextLabelHelp" type="RichTextLabel" parent="PanelContainerHelp"]
 margin_left = 32.0
 margin_top = 8.0
-margin_right = 430.0
-margin_bottom = 342.0
+margin_right = 448.0
+margin_bottom = 372.0
 rect_min_size = Vector2( 214, 0 )
 size_flags_horizontal = 3
 bbcode_enabled = true
 bbcode_text = "[table=2]
 [cell][b]Shortcut[/b][/cell][cell][right][b]Action[/b][/right][/cell]
-[cell][code]CTRL+S[/code][/cell][cell][right]Toggle search text-box focus[/right][/cell]
+[cell][code]CTRL + /[/code][/cell][cell][right]This help window[/right][/cell]
+[cell][code]CTRL + S[/code][/cell][cell][right]Toggle search text-box focus[/right][/cell]
 [cell][code]H[/code][/cell][cell][right]Rewind {0}s[/right][/cell]
 [cell][code]L[/code][/cell][cell][right]Fast-forward {0}s[/right][/cell]
-[cell][code]CTRL+H[/code][/cell][cell][right]Back to API-KEY screen[/right][/cell]
-[cell][code]CTRL+L[/code][/cell][cell][right]To play screen[/right][/cell]
-[cell][code]SHIFT+H[/code][/cell][cell][right]Rewind to start[/right][/cell]
-[cell][code]SHIFT+L[/code][/cell][cell][right]Fast-forward to end[/right][/cell]
+[cell][code]CTRL + H[/code][/cell][cell][right]Back to API-KEY screen[/right][/cell]
+[cell][code]CTRL + L[/code][/cell][cell][right]To play screen[/right][/cell]
+[cell][code]SHIFT + H[/code][/cell][cell][right]Rewind to start[/right][/cell]
+[cell][code]SHIFT + L[/code][/cell][cell][right]Fast-forward to end[/right][/cell]
 [cell][code]I[/code][/cell][cell][right]Toggle info panel[/right][/cell]
 [cell][code]C[/code][/cell][cell][right]Copy image average color[/right][/cell]
-[cell][code]CTRL+Q[/code][/cell][cell][right]Quit[/right][/cell]
+[cell][code]CTRL + Q[/code][/cell][cell][right]Quit[/right][/cell]
 [/table]"
-text = "ShortcutActionCTRL+SToggle search text-box focusHRewind {0}sLFast-forward {0}sCTRL+HBack to API-KEY screenCTRL+LTo play screenSHIFT+HRewind to startSHIFT+LFast-forward to endIToggle info panelCCopy image average colorCTRL+QQuit"
+text = "ShortcutActionCTRL + /This help windowCTRL + SToggle search text-box focusHRewind {0}sLFast-forward {0}sCTRL + HBack to API-KEY screenCTRL + LTo play screenSHIFT + HRewind to startSHIFT + LFast-forward to endIToggle info panelCCopy image average colorCTRL + QQuit"
 fit_content_height = true
 scroll_active = false
 
