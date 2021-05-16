@@ -130,16 +130,18 @@ func _search() -> void:
 	if le_search.text.length() < 3:
 		return
 	
-	tween.remove_all()
-	pb.max_value = sb_time_input.value
 	_session.search(le_search.text)
 	var photo = yield(_session, "photo_fetched")
-	tr_image.texture = photo.texture
-	pc_info.refresh(photo)
-	tween.interpolate_property(pb, "value", pb.min_value, pb.max_value, sb_time_input.value)
-	tween.interpolate_property(pb, "modulate", PB_COLORS.begin, PB_COLORS.end, sb_time_input.value - LAST, Tween.TRANS_SINE, Tween.EASE_IN)
-	tween.interpolate_property(pb, "modulate", PB_COLORS.end, PB_COLORS.last, LAST, Tween.TRANS_LINEAR, Tween.EASE_IN, sb_time_input.value - LAST)
-	tween.start()
+	
+	if tb_play_pause.pressed:
+		tween.remove_all()
+		pc_info.refresh(photo)
+		tr_image.texture = photo.texture
+		pb.max_value = sb_time_input.value
+		tween.interpolate_property(pb, "value", pb.min_value, pb.max_value, sb_time_input.value)
+		tween.interpolate_property(pb, "modulate", PB_COLORS.begin, PB_COLORS.end, sb_time_input.value - LAST, Tween.TRANS_SINE, Tween.EASE_IN)
+		tween.interpolate_property(pb, "modulate", PB_COLORS.end, PB_COLORS.last, LAST, Tween.TRANS_LINEAR, Tween.EASE_IN, sb_time_input.value - LAST)
+		tween.start()
 
 
 func _seek(delta: float, is_relative := true) -> void:
