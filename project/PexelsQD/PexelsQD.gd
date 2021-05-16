@@ -34,6 +34,7 @@ onready var pb: ProgressBar = $VBoxContainerMain/ProgressBar
 onready var tr_image: TextureRect = $VBoxContainerMain/TextureRectImage
 onready var pc_info: PanelContainer = $PanelContainerInfo
 onready var pc_help: PanelContainer = $PanelContainerHelp
+onready var rtl_help: RichTextLabel = $PanelContainerHelp/RichTextLabelHelp
 onready var tween: Tween = $Tween
 onready var http_request: HTTPRequest = $HTTPRequest
 
@@ -55,6 +56,7 @@ func _ready() -> void:
 	tb_next.connect("pressed", vbc_main, "set_visible", [true])
 	tb_back.connect("pressed", vbc_main, "set_visible", [false])
 	tb_back.connect("pressed", pc_intro, "set_visible", [true])
+	tb_back.connect("pressed", pc_help, "set_visible", [false])
 	le_search.connect("text_entered", self, "_on_LineEditSearch_text_entered")
 	le_search.connect("text_validated", self, "_on_LineEditSearch_text_validated")
 	tb_skip_back.connect("pressed", self, "_seek", [0, false])
@@ -72,17 +74,13 @@ func _ready() -> void:
 	
 	OS.min_window_size = Constants.MIN_WINDOW_SIZE
 	pc_intro.setup(config_file)
-
-
-func _load_config() -> ConfigFile:
-	var config_file := ConfigFile.new()
-	if config_file.load(Constants.CONFIG_FILE.path) != OK:
-		_notify("ERROR: loading config file.")
-	return config_file
+	rtl_help.bbcode_text = rtl_help.bbcode_text.format([Constants.DELTA])
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_search"):
+	if event.is_action_pressed("ui_quit"):
+		get_tree().quit()
+	elif event.is_action_pressed("ui_search"):
 		var node := get_focus_owner()
 		le_search.release_focus() if node == le_search else le_search.grab_focus()
 	elif event.is_action_pressed("ui_color_copy"):
@@ -116,11 +114,16 @@ func _on_TextureButtonStop_pressed() -> void:
 
 
 func _on_PanelContainerInfoColorRect_gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_quit"):
-		get_tree().quit()
 	if event.is_action_pressed("left_click"):
 		OS.clipboard = pc_info.html_color
 		_notify("{0} copied to clipboard!".format([OS.clipboard]))
+
+
+func _load_config() -> ConfigFile:
+	var config_file := ConfigFile.new()
+	if config_file.load(Constants.CONFIG_FILE.path) != OK:
+		_notify("ERROR: loading config file.")
+	return config_file
 
 
 func _search() -> void:

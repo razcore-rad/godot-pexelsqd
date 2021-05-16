@@ -9,6 +9,6 @@ const CONFIG_FILE := {
 }
 
 const URLS := {
-	"razcore": "https://github.com/razcore-art",
+	"razcore": "https://github.com/razcore-art/godot-pexelsqd",
 	"pexels": "https://www.pexels.com"
 }
