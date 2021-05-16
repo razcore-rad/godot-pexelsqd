@@ -125,7 +125,7 @@ func _on_PanelContainerInfoColorRect_gui_input(event: InputEvent) -> void:
 func _load_config() -> ConfigFile:
 	var config_file := ConfigFile.new()
 	if config_file.load(Constants.CONFIG_FILE.path) != OK:
-		_notify("ERROR: loading config file.")
+		config_file.save(Constants.CONFIG_FILE.path)
 	return config_file
 
 
