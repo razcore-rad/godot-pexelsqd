@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=17 format=2]
+[gd_resource type="Theme" load_steps=18 format=2]
 
 [ext_resource path="res://assets/fonts/default.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/icons/chevron-updown.svg" type="Texture" id=2]
@@ -8,7 +8,7 @@
 [ext_resource path="res://assets/icons/x-circle.svg" type="Texture" id=6]
 [ext_resource path="res://assets/icons/square.svg" type="Texture" id=7]
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.180392, 0.203922, 0.25098, 1 )
 border_width_left = 1
 border_width_top = 1
@@ -16,17 +16,17 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0.639216, 0.745098, 0.54902, 1 )
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=2]
 content_margin_left = 8.0
 content_margin_right = 8.0
 content_margin_top = 4.0
 content_margin_bottom = 4.0
 bg_color = Color( 0.262745, 0.298039, 0.368627, 1 )
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.180392, 0.203922, 0.25098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.298039, 0.337255, 0.415686, 1 )
 border_width_left = 1
 border_width_top = 1
@@ -34,10 +34,10 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0.639216, 0.745098, 0.54902, 1 )
 
-[sub_resource type="StyleBoxLine" id=13]
+[sub_resource type="StyleBoxLine" id=5]
 color = Color( 0.298039, 0.337255, 0.415686, 1 )
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=6]
 content_margin_left = 8.0
 content_margin_right = 8.0
 content_margin_top = 8.0
@@ -49,13 +49,20 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0.639216, 0.745098, 0.54902, 1 )
 
-[sub_resource type="StyleBoxLine" id=14]
+[sub_resource type="StyleBoxLine" id=7]
 color = Color( 0.298039, 0.337255, 0.415686, 1 )
 
-[sub_resource type="StyleBoxEmpty" id=10]
+[sub_resource type="StyleBoxEmpty" id=8]
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="StyleBoxLine" id=10]
+color = Color( 0.298039, 0.337255, 0.415686, 1 )
+grow_begin = -4.0
+grow_end = -4.0
+thickness = 2
+vertical = true
 
 [resource]
 default_font = ExtResource( 1 )
@@ -64,9 +71,9 @@ LineEdit/colors/cursor_color = Color( 0.639216, 0.745098, 0.54902, 1 )
 LineEdit/colors/font_color = Color( 0.847059, 0.870588, 0.913725, 1 )
 LineEdit/colors/font_color_selected = Color( 0.180392, 0.203922, 0.25098, 1 )
 LineEdit/colors/selection_color = Color( 0.847059, 0.870588, 0.913725, 1 )
-LineEdit/styles/focus = SubResource( 9 )
-LineEdit/styles/normal = SubResource( 8 )
-PanelContainer/styles/panel = SubResource( 7 )
+LineEdit/styles/focus = SubResource( 1 )
+LineEdit/styles/normal = SubResource( 2 )
+PanelContainer/styles/panel = SubResource( 3 )
 PopupMenu/colors/font_color = Color( 0.847059, 0.870588, 0.913725, 1 )
 PopupMenu/colors/font_color_accel = Color( 0.847059, 0.870588, 0.913725, 0.392157 )
 PopupMenu/colors/font_color_disabled = Color( 0.298039, 0.337255, 0.415686, 1 )
@@ -77,11 +84,15 @@ PopupMenu/icons/radio_checked = ExtResource( 6 )
 PopupMenu/icons/radio_unchecked = ExtResource( 3 )
 PopupMenu/icons/submenu = ExtResource( 5 )
 PopupMenu/icons/unchecked = ExtResource( 7 )
-PopupMenu/styles/hover = SubResource( 12 )
-PopupMenu/styles/labeled_separator_left = SubResource( 13 )
-PopupMenu/styles/labeled_separator_right = SubResource( 13 )
-PopupMenu/styles/panel = SubResource( 15 )
-PopupMenu/styles/separator = SubResource( 14 )
-ProgressBar/styles/bg = SubResource( 10 )
-ProgressBar/styles/fg = SubResource( 11 )
+PopupMenu/styles/hover = SubResource( 4 )
+PopupMenu/styles/labeled_separator_left = SubResource( 5 )
+PopupMenu/styles/labeled_separator_right = SubResource( 5 )
+PopupMenu/styles/panel = SubResource( 6 )
+PopupMenu/styles/separator = SubResource( 7 )
+ProgressBar/styles/bg = SubResource( 8 )
+ProgressBar/styles/fg = SubResource( 9 )
+RichTextLabel/colors/default_color = Color( 0.847059, 0.870588, 0.913725, 1 )
+RichTextLabel/colors/font_color_selected = Color( 0.180392, 0.203922, 0.25098, 1 )
+RichTextLabel/colors/selection_color = Color( 0.847059, 0.870588, 0.913725, 1 )
 SpinBox/icons/updown = ExtResource( 2 )
+VSeparator/styles/separator = SubResource( 10 )

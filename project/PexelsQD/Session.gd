@@ -1,7 +1,7 @@
 class_name Session
 
-signal image_fetched(texture)
 signal notified(message)
+signal photo_fetched(texture)
 
 const MESSAGE := {
 	"http": "ERROR\nresult: {0}\nrequest_code: {1}\nbody: {3}",
@@ -24,7 +24,6 @@ var _rng := RandomNumberGenerator.new()
 var _regex := RegEx.new()
 var _total_results := 0
 var _previous_query := ""
-var _texture := ImageTexture.new()
 var _image := Image.new()
 var _image_funcs := {
 	"jpg": funcref(_image, "load_jpg_from_buffer"),
@@ -70,14 +69,18 @@ func search(query: String) -> void:
 		_total_results = body.result.total_results
 		search(params.query)
 	else:
-		var url: String = body.result.photos[0].src.large2x
-		var regex_result := _regex.search(url)
-		if regex_result != null:
-			# TODO: something doesn't work with PNG (maybe when pictures are too large)
-			var type := regex_result.get_string(1).to_lower()
-			_http_request.request(url)
-			result = yield(_http_request, "request_completed")
-			_image_funcs[type].call_func(result[3])
-			_texture.create_from_image(_image)
-			emit_signal("image_fetched", _texture)
+		for photo in body.result.photos:
+			var src: String = photo.src.large2x
+			var regex_result := _regex.search(src)
+			if regex_result != null:
+				# TODO: something doesn't work with PNG (maybe when pictures are too large)
+				var type := regex_result.get_string(1).to_lower()
+				_http_request.request(src)
+				result = yield(_http_request, "request_completed")
+				_image_funcs[type].call_func(result[3])
+				
+				var texture := ImageTexture.new()
+				texture.create_from_image(_image)
+				photo.texture = texture
+				emit_signal("photo_fetched", photo)
 	_previous_query = query

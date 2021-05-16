@@ -4,8 +4,10 @@ signal notified(message)
 
 var _config_file: ConfigFile = null
 
-onready var le_api_key: LineEdit = $CenterContainer/VBoxContainer/HBoxContainer2/LineEditApiKey
-onready var tb_next: TextureButton = $CenterContainer/VBoxContainer/HBoxContainer2/TextureButtonNext
+onready var tb_razcore: TextureButton = $CenterContainer/VBoxContainer/HBoxContainerLogos/TextureButtonRazcore
+onready var tb_pexels: TextureButton = $CenterContainer/VBoxContainer/HBoxContainerLogos/TextureButtonPexels
+onready var le_api_key: LineEdit = $CenterContainer/VBoxContainer/HBoxContainerControls/LineEditApiKey
+onready var tb_next: TextureButton = $CenterContainer/VBoxContainer/HBoxContainerControls/TextureButtonNext
 
 
 func setup(config_file: ConfigFile) -> void:
@@ -14,6 +16,8 @@ func setup(config_file: ConfigFile) -> void:
 
 
 func _ready() -> void:
+	tb_razcore.connect("pressed", OS, "shell_open", [Constants.URLS.razcore])
+	tb_pexels.connect("pressed", OS, "shell_open", [Constants.URLS.pexels])
 	le_api_key.connect("text_entered", tb_next, "set_pressed", [true])
 	tb_next.connect("pressed", self, "set_visible", [false])
 	tb_next.connect("pressed", self, "_on_TextureButtonNext_pressed")

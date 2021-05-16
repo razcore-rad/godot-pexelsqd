@@ -13,7 +13,6 @@ func _ready() -> void:
 	connect("mouse_exited", le, "release_focus")
 	le.connect("text_changed", self, "_on_LineEdit_text_changed")
 	regex.compile(PATTERN)
-	value = 10
 	old_text = le.text
 
 
