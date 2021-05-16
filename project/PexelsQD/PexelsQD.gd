@@ -72,12 +72,8 @@ func _ready() -> void:
 	rtl_help.bbcode_text = rtl_help.bbcode_text.format([Constants.DELTA])
 	
 	var api_key: String = config_file.get_value(Constants.CONFIG_FILE.section, Constants.CONFIG_FILE.key, "")
-	if not api_key.empty():
-		vbc_main.visible = true
-		pc_intro.visible = false
-	else:
-		vbc_main.visible = false
-		pc_intro.visible = true
+	pc_intro.visible = api_key.empty()
+	vbc_main.visible = not pc_intro.visible
 
 
 func _unhandled_input(event: InputEvent) -> void:
