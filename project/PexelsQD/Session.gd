@@ -1,7 +1,5 @@
 class_name Session
 
-#signal photo_fetched(message)
-
 const MESSAGES := {
 	"http": "ERROR\nresult: {0}\nrequest_code: {1}\nbody: {3}",
 	"json": "ERROR\nerror: {0}\nerror_line: {1}\nerror_string: {2}",
