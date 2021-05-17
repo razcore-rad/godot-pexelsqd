@@ -26,7 +26,6 @@ var _rng := RandomNumberGenerator.new()
 var _regex := RegEx.new()
 var _total_results := 0
 var _previous_query := ""
-var _texture := ImageTexture.new()
 var _image := Image.new()
 var _image_funcs := {
 	"jpg": funcref(_image, "load_jpg_from_buffer"),
@@ -86,8 +85,8 @@ func search(query: String) -> Dictionary:
 					return {"error": MESSAGES.http.format(result)}
 				
 				_image_funcs[type].call_func(result[3])
-				_texture.create_from_image(_image)
-				photo.texture = _texture
+				photo.texture = ImageTexture.new()
+				photo.texture.create_from_image(_image)
 				return photo
 			else:
 				return {"error": MESSAGES.unsupported.format(src)}
