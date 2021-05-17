@@ -6,7 +6,8 @@ signal photo_fetched(texture)
 const MESSAGE := {
 	"http": "ERROR\nresult: {0}\nrequest_code: {1}\nbody: {3}",
 	"json": "ERROR\nerror: {0}\nerror_line: {1}\nerror_string: {2}",
-	"result": "ERROR\nerror: {0}"
+	"result": "ERROR\nerror: {0}",
+	"zero": "WARNING\nCouldn't find any results for `{0}`, please try a again!"
 }
 const PHOTO := {
 	"base_url": "https://api.pexels.com/v1",
@@ -44,6 +45,8 @@ func _init(config_file: ConfigFile, http_request: HTTPRequest) -> void:
 
 func search(query: String) -> void:
 	var is_first := _previous_query != query
+	_previous_query = query
+	
 	var params := {
 		"base_url": PHOTO.base_url,
 		"query": query,
@@ -71,12 +74,12 @@ func search(query: String) -> void:
 	if is_first:
 		_total_results = body.result.total_results
 		search(params.query)
-	else:
+	elif _total_results != 0:
 		for photo in body.result.photos:
 			var src: String = photo.src.large2x
 			var regex_result := _regex.search(src)
 			if regex_result != null:
-				# TODO: something doesn't work with PNG (maybe when pictures are too large)
+				# TODO: sometimes this might fail.
 				var type := regex_result.get_string(1).to_lower()
 				_http_request.request(src)
 				result = yield(_http_request, "request_completed")
@@ -86,4 +89,6 @@ func search(query: String) -> void:
 				texture.create_from_image(_image)
 				photo.texture = texture
 				emit_signal("photo_fetched", photo)
-	_previous_query = query
+	else:
+		emit_signal("notified", MESSAGE.zero.format([query]))
+		emit_signal("photo_fetched", {})

@@ -99,15 +99,17 @@ func _on_LineEditSearch_text_validated(new_text: String) -> void:
 
 func _on_TextureButtonPlayPaused_toggled(is_button_pressed: bool) -> void:
 	_tween_funcs[is_button_pressed].call_func()
+	tr_image.modulate.a = 1 if is_button_pressed else 0.01
 	if _is_first:
 		_tween_funcs[true] = funcref(tween, "resume_all")
 		_is_first = not _is_first
 
 
 func _on_TextureButtonStop_pressed() -> void:
-	tr_image.texture = _tr_image_placeholder
-	pb.value = pb.min_value
 	tb_play_pause.pressed = false
+	tr_image.texture = _tr_image_placeholder
+	tr_image.modulate.a = 1
+	pb.value = pb.min_value
 	pc_info.refresh()
 	tween.remove_all()
 
@@ -132,7 +134,7 @@ func _search() -> void:
 	_session.search(le_search.text)
 	var photo = yield(_session, "photo_fetched")
 	
-	if tb_play_pause.pressed:
+	if not photo.empty() and tb_play_pause.pressed:
 		tween.remove_all()
 		pc_info.refresh(photo)
 		tr_image.texture = photo.texture
@@ -141,6 +143,8 @@ func _search() -> void:
 		tween.interpolate_property(pb, "modulate", PB_COLORS.begin, PB_COLORS.end, sb_time_input.value - LAST, Tween.TRANS_SINE, Tween.EASE_IN)
 		tween.interpolate_property(pb, "modulate", PB_COLORS.end, PB_COLORS.last, LAST, Tween.TRANS_LINEAR, Tween.EASE_IN, sb_time_input.value - LAST)
 		tween.start()
+	else:
+		tb_stop.emit_signal("pressed")
 
 
 func _seek(delta: float, is_relative := true) -> void:
