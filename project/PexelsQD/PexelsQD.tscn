@@ -153,7 +153,6 @@ margin_right = 576.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 max_length = 60
-placeholder_text = "search: at least 3 characters"
 script = ExtResource( 5 )
 
 [node name="SpinBoxTimeInput" type="SpinBox" parent="VBoxContainerMain/HBoxContainerControls"]

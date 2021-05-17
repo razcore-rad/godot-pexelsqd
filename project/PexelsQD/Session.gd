@@ -3,7 +3,7 @@ class_name Session
 signal notified(message)
 signal photo_fetched(texture)
 
-const MESSAGE := {
+const MESSAGES := {
 	"http": "ERROR\nresult: {0}\nrequest_code: {1}\nbody: {3}",
 	"json": "ERROR\nerror: {0}\nerror_line: {1}\nerror_string: {2}",
 	"result": "ERROR\nerror: {0}",
@@ -25,6 +25,7 @@ var _rng := RandomNumberGenerator.new()
 var _regex := RegEx.new()
 var _total_results := 0
 var _previous_query := ""
+var _texture := ImageTexture.new()
 var _image := Image.new()
 var _image_funcs := {
 	"jpg": funcref(_image, "load_jpg_from_buffer"),
@@ -58,37 +59,39 @@ func search(query: String) -> void:
 	_http_request.request(PHOTO.search.format(params), PHOTO.headers)
 	var result: Array = yield(_http_request, "request_completed")
 	
-	if result[0] != HTTPRequest.RESULT_SUCCESS:
-		emit_signal("notified", MESSAGE.http.format(result))
+	if result[0] != HTTPRequest.RESULT_SUCCESS or result[1] != HTTPClient.RESPONSE_OK:
+		emit_signal("notified", MESSAGES.http.format(result))
 		return
 	
 	var body := JSON.parse(result[3].get_string_from_utf8())
 	if body.error != OK:
-		emit_signal("notified", MESSAGE.json.format([body.error, body.error_line, body.error_string]))
+		emit_signal("notified", MESSAGES.json.format([body.error, body.error_line, body.error_string]))
 		return
 	
 	if body.result.has("error"):
-		emit_signal("notified", MESSAGE.result.format([body.result.error]))
+		emit_signal("notified", MESSAGES.result.format([body.result.error]))
 		return
 	
 	if is_first:
 		_total_results = body.result.total_results
 		search(params.query)
-	elif _total_results != 0:
+	elif _total_results > 0:
 		for photo in body.result.photos:
 			var src: String = photo.src.large2x
 			var regex_result := _regex.search(src)
 			if regex_result != null:
-				# TODO: sometimes this might fail.
 				var type := regex_result.get_string(1).to_lower()
 				_http_request.request(src)
 				result = yield(_http_request, "request_completed")
-				_image_funcs[type].call_func(result[3])
 				
-				var texture := ImageTexture.new()
-				texture.create_from_image(_image)
-				photo.texture = texture
+				if result[0] != HTTPRequest.RESULT_SUCCESS or result[1] != HTTPClient.RESPONSE_OK:
+					emit_signal("notified", MESSAGES.http.format(result))
+					return
+				
+				_image_funcs[type].call_func(result[3])
+				_texture.create_from_image(_image)
+				photo.texture = _texture
 				emit_signal("photo_fetched", photo)
 	else:
-		emit_signal("notified", MESSAGE.zero.format([query]))
+		emit_signal("notified", MESSAGES.zero.format([query]))
 		emit_signal("photo_fetched", {})

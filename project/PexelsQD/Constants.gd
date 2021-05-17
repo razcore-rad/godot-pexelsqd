@@ -1,6 +1,7 @@
 class_name Constants
 
 const MIN_WINDOW_SIZE := Vector2(768, 480)
+const MIN_SEARCH_LENGTH := 3
 const DELTA := 3
 const CONFIG_FILE := {
 	"path": "user://settings.ini",

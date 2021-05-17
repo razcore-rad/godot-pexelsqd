@@ -1,5 +1,9 @@
 extends Control
 
+const MESSAGES := {
+	"filesystem": "ERROR\nCan't open the config file!",
+	"search": "WARNING\nStopping! Search string has less than {0} letters."
+}
 const LAST := 3
 const PB_COLORS := {
 	"begin": Color("004c566a"),
@@ -45,6 +49,7 @@ func _ready() -> void:
 	_tr_image_placeholder = tr_image.texture
 	_tween_funcs[true] = funcref(tween, "start")
 	_tween_funcs[false] = funcref(tween, "stop_all")
+	MESSAGES.search = MESSAGES.search.format([Constants.MIN_SEARCH_LENGTH])
 	
 	_session.connect("notified", self, "_notify")
 	pc_intro.connect("notified", self, "_notify")
@@ -52,6 +57,7 @@ func _ready() -> void:
 	tb_back.connect("pressed", vbc_main, "set_visible", [false])
 	tb_back.connect("pressed", pc_intro, "set_visible", [true])
 	tb_back.connect("pressed", pc_help, "set_visible", [false])
+	tb_back.connect("pressed", tb_play_pause, "set_pressed", [false])
 	le_search.connect("text_entered", self, "_on_LineEditSearch_text_entered")
 	le_search.connect("text_validated", self, "_on_LineEditSearch_text_validated")
 	tb_skip_back.connect("pressed", self, "_seek", [0, false])
@@ -123,12 +129,15 @@ func _on_PanelContainerInfoColorRect_gui_input(event: InputEvent) -> void:
 func _load_config() -> ConfigFile:
 	var config_file := ConfigFile.new()
 	if config_file.load(Constants.CONFIG_FILE.path) != OK:
-		config_file.save(Constants.CONFIG_FILE.path)
+		if config_file.save(Constants.CONFIG_FILE.path) != OK:
+			emit_signal(MESSAGES.filesystem)
 	return config_file
 
 
 func _search() -> void:
-	if le_search.text.length() < 3:
+	if le_search.text.length() < Constants.MIN_SEARCH_LENGTH:
+		_notify(MESSAGES.search)
+		tb_stop.emit_signal("pressed")
 		return
 	
 	_session.search(le_search.text)

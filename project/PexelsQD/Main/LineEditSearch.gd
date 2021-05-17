@@ -13,6 +13,7 @@ func _ready() -> void:
 	connect("mouse_exited", self, "release_focus")
 	connect("text_changed", self, "_on_text_changed")
 	regex.compile(PATTERN)
+	placeholder_text = "search: at least {0} characters".format([Constants.MIN_SEARCH_LENGTH])
 	old_text = text
 
 
