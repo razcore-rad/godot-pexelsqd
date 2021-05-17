@@ -140,6 +140,9 @@ func _search() -> void:
 		tb_stop.emit_signal("pressed")
 		return
 	
+	# TODO: should we check if `_session.search()` completes? (return without
+	#       emitting `photo_fetched`) or should we always emit `photo_fetched` to
+	#       trigger completing this coroutine?!
 	_session.search(le_search.text)
 	var photo = yield(_session, "photo_fetched")
 	
