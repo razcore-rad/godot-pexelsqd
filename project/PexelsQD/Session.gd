@@ -20,7 +20,7 @@ const PHOTO := {
 		"Authorization: {api_key}"
 	]
 }
-const PATTERN := "\\.(jpg|JPG|jpeg|JPEG|png|PNG)"
+const PATTERN := "\\.(jpg|jpeg|png|tga|webp)"
 
 var _rng := RandomNumberGenerator.new()
 var _regex := RegEx.new()
@@ -29,7 +29,9 @@ var _previous_query := ""
 var _image := Image.new()
 var _image_funcs := {
 	"jpg": funcref(_image, "load_jpg_from_buffer"),
-	"png": funcref(_image, "load_png_from_buffer")
+	"png": funcref(_image, "load_png_from_buffer"),
+	"tga": funcref(_image, "load_tga_from_buffer"),
+	"webp": funcref(_image, "load_webp_from_buffer")
 }
 var _config_file: ConfigFile = null
 var _http_request: HTTPRequest = null
@@ -75,9 +77,9 @@ func search(query: String) -> Dictionary:
 	elif _total_results > 0:
 		for photo in body.result.photos:
 			var src: String = photo.src.large2x
-			var regex_result := _regex.search(src)
+			var regex_result := _regex.search(src.to_lower())
 			if regex_result != null:
-				var type := regex_result.get_string(1).to_lower()
+				var type := regex_result.get_string(1)
 				_http_request.request(src)
 				result = yield(_http_request, "request_completed")
 				
