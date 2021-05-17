@@ -2,7 +2,7 @@ extends Control
 
 const MESSAGES := {
 	"filesystem": "ERROR\nCan't open the config file!",
-	"search": "WARNING\nStopping! Search string has less than {0} letters."
+	"search": "ERROR\nStopping! Search string has less than {0} letters."
 }
 const LAST := 3
 const PB_COLORS := {
@@ -51,7 +51,6 @@ func _ready() -> void:
 	_tween_funcs[false] = funcref(tween, "stop_all")
 	MESSAGES.search = MESSAGES.search.format([Constants.MIN_SEARCH_LENGTH])
 	
-	_session.connect("notified", self, "_notify")
 	pc_intro.connect("notified", self, "_notify")
 	tb_next.connect("pressed", vbc_main, "set_visible", [true])
 	tb_back.connect("pressed", vbc_main, "set_visible", [false])
@@ -140,13 +139,8 @@ func _search() -> void:
 		tb_stop.emit_signal("pressed")
 		return
 	
-	# TODO: should we check if `_session.search()` completes? (return without
-	#       emitting `photo_fetched`) or should we always emit `photo_fetched` to
-	#       trigger completing this coroutine?!
-	_session.search(le_search.text)
-	var photo = yield(_session, "photo_fetched")
-	
-	if not photo.empty() and tb_play_pause.pressed:
+	var photo = yield(_session.search(le_search.text), "completed")
+	if not photo.has("error") and tb_play_pause.pressed:
 		tween.remove_all()
 		pc_info.refresh(photo)
 		tr_image.texture = photo.texture
@@ -155,7 +149,8 @@ func _search() -> void:
 		tween.interpolate_property(pb, "modulate", PB_COLORS.begin, PB_COLORS.end, sb_time_input.value - LAST, Tween.TRANS_SINE, Tween.EASE_IN)
 		tween.interpolate_property(pb, "modulate", PB_COLORS.end, PB_COLORS.last, LAST, Tween.TRANS_LINEAR, Tween.EASE_IN, sb_time_input.value - LAST)
 		tween.start()
-	else:
+	elif photo.has("error"):
+		_notify(photo.error)
 		tb_stop.emit_signal("pressed")
 
 

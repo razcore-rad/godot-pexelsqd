@@ -1,13 +1,14 @@
 class_name Session
 
-signal notified(message)
-signal photo_fetched(texture)
+#signal photo_fetched(message)
 
 const MESSAGES := {
 	"http": "ERROR\nresult: {0}\nrequest_code: {1}\nbody: {3}",
 	"json": "ERROR\nerror: {0}\nerror_line: {1}\nerror_string: {2}",
 	"result": "ERROR\nerror: {0}",
-	"zero": "WARNING\nCouldn't find any results for `{0}`, please try a again!"
+	"zero": "ERROR\nCouldn't find any results for `{0}`, please try a again!",
+	"unsupported": "ERROR\n Skipping! Fetched an unsupported image type from {0}.",
+	"unknown": "ERROR\n Something went wrong!"
 }
 const PHOTO := {
 	"base_url": "https://api.pexels.com/v1",
@@ -44,7 +45,7 @@ func _init(config_file: ConfigFile, http_request: HTTPRequest) -> void:
 	_regex.compile(PATTERN)
 
 
-func search(query: String) -> void:
+func search(query: String) -> Dictionary:
 	var is_first := _previous_query != query
 	_previous_query = query
 	
@@ -59,22 +60,19 @@ func search(query: String) -> void:
 	_http_request.request(PHOTO.search.format(params), PHOTO.headers)
 	var result: Array = yield(_http_request, "request_completed")
 	
-	if result[0] != HTTPRequest.RESULT_SUCCESS or result[1] != HTTPClient.RESPONSE_OK:
-		emit_signal("notified", MESSAGES.http.format(result))
-		return
+	if result[0] != HTTPRequest.RESULT_SUCCESS or not result[1] in [HTTPClient.RESPONSE_OK, HTTPClient.RESPONSE_UNAUTHORIZED]:
+		return {"error": MESSAGES.http.format(result)}
 	
 	var body := JSON.parse(result[3].get_string_from_utf8())
 	if body.error != OK:
-		emit_signal("notified", MESSAGES.json.format([body.error, body.error_line, body.error_string]))
-		return
+		return {"error": MESSAGES.json.format([body.error, body.error_line, body.error_string])}
 	
 	if body.result.has("error"):
-		emit_signal("notified", MESSAGES.result.format([body.result.error]))
-		return
+		return {"error": MESSAGES.result.format([body.result.error])}
 	
 	if is_first:
 		_total_results = body.result.total_results
-		search(params.query)
+		return search(params.query)
 	elif _total_results > 0:
 		for photo in body.result.photos:
 			var src: String = photo.src.large2x
@@ -84,14 +82,17 @@ func search(query: String) -> void:
 				_http_request.request(src)
 				result = yield(_http_request, "request_completed")
 				
-				if result[0] != HTTPRequest.RESULT_SUCCESS or result[1] != HTTPClient.RESPONSE_OK:
-					emit_signal("notified", MESSAGES.http.format(result))
-					return
+				if result[0] != HTTPRequest.RESULT_SUCCESS or not result[1] in [HTTPClient.RESPONSE_OK, HTTPClient.RESPONSE_UNAUTHORIZED]:
+					return {"error": MESSAGES.http.format(result)}
 				
 				_image_funcs[type].call_func(result[3])
 				_texture.create_from_image(_image)
 				photo.texture = _texture
-				emit_signal("photo_fetched", photo)
+				return photo
+			else:
+				return {"error": MESSAGES.unsupported.format(src)}
 	else:
-		emit_signal("notified", MESSAGES.zero.format([query]))
-		emit_signal("photo_fetched", {})
+		return {"error": MESSAGES.zero.format([query])}
+	
+	# Function should never reach this code
+	return MESSAGES.unknown
