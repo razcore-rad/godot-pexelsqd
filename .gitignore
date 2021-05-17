@@ -9,4 +9,6 @@ export_presets.cfg
 data_*/
 
 # Extra
+*~
 readme/godot-pexelsqd.mp4
+dist/
