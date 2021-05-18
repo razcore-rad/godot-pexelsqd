@@ -1,8 +1,9 @@
 extends Control
 
-const MESSAGES := {
+const NOTIFICATIONS := {
 	"filesystem": "ERROR\nCan't open the config file!",
-	"search": "ERROR\nStopping! Search string has less than {0} letters."
+	"search": "ERROR\nStopping! Search string has less than {0} letters.",
+	"color": "{0} copied to clipboard."
 }
 const LAST := 3
 const PB_COLORS := {
@@ -16,7 +17,14 @@ const PCNotification := preload("res://PexelsQD/PanelContainerNotification.tscn"
 var _is_first := true
 var _session: Session = null
 var _tr_image_placeholder: StreamTexture = null
-var _tween_funcs := {}
+var _tr_image_alpha := {
+	true: 1,
+	false: 0.01
+}
+var _tween_funcs := {
+	true: "resume_all",
+	false: "stop_all"
+}
 
 onready var pc_intro: PanelContainer = $PanelContainerIntro
 onready var tb_next: TextureButton = $PanelContainerIntro/CenterContainer/VBoxContainer/HBoxContainerControls/TextureButtonNext
@@ -47,9 +55,7 @@ func _ready() -> void:
 	var config_file := _load_config()
 	_session = Session.new(config_file, http_request)
 	_tr_image_placeholder = tr_image.texture
-	_tween_funcs[true] = funcref(tween, "start")
-	_tween_funcs[false] = funcref(tween, "stop_all")
-	MESSAGES.search = MESSAGES.search.format([Constants.MIN_SEARCH_LENGTH])
+	NOTIFICATIONS.search = NOTIFICATIONS.search.format([Constants.MIN_SEARCH_LENGTH])
 	
 	pc_intro.connect("notified", self, "_notify")
 	tb_next.connect("pressed", vbc_main, "set_visible", [true])
@@ -76,7 +82,9 @@ func _ready() -> void:
 	pc_intro.setup(config_file)
 	rtl_help.bbcode_text = rtl_help.bbcode_text.format([Constants.DELTA])
 	
-	var api_key: String = config_file.get_value(Constants.CONFIG_FILE.section, Constants.CONFIG_FILE.key, "")
+	var api_key: String = config_file.get_value(
+		Constants.CONFIG_FILE.section, Constants.CONFIG_FILE.key, ""
+	)
 	pc_intro.visible = api_key.empty()
 	vbc_main.visible = not pc_intro.visible
 
@@ -103,11 +111,8 @@ func _on_LineEditSearch_text_validated(new_text: String) -> void:
 
 
 func _on_TextureButtonPlayPaused_toggled(is_button_pressed: bool) -> void:
-	_tween_funcs[is_button_pressed].call_func()
-	tr_image.modulate.a = 1 if is_button_pressed else 0.01
-	if _is_first:
-		_tween_funcs[true] = funcref(tween, "resume_all")
-		_is_first = not _is_first
+	tween.call(_tween_funcs[is_button_pressed])
+	tr_image.modulate.a = _tr_image_alpha[is_button_pressed]
 
 
 func _on_TextureButtonStop_pressed() -> void:
@@ -122,36 +127,37 @@ func _on_TextureButtonStop_pressed() -> void:
 func _on_PanelContainerInfoColorRect_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
 		OS.clipboard = pc_info.html_color
-		_notify("{0} copied to clipboard!".format([OS.clipboard]))
+		_notify(NOTIFICATIONS.color.format([OS.clipboard]))
 
 
 func _load_config() -> ConfigFile:
 	var config_file := ConfigFile.new()
 	if config_file.load(Constants.CONFIG_FILE.path) != OK:
 		if config_file.save(Constants.CONFIG_FILE.path) != OK:
-			emit_signal(MESSAGES.filesystem)
+			emit_signal(NOTIFICATIONS.filesystem)
 	return config_file
 
 
 func _search() -> void:
 	if le_search.text.length() < Constants.MIN_SEARCH_LENGTH:
-		_notify(MESSAGES.search)
+		_notify(NOTIFICATIONS.search)
 		tb_stop.emit_signal("pressed")
 		return
 	
 	var photo = yield(_session.search(le_search.text), "completed")
-	if not photo.has("error") and tb_play_pause.pressed:
-		tween.remove_all()
-		pc_info.refresh(photo)
-		tr_image.texture = photo.texture
-		pb.max_value = sb_time_input.value
-		tween.interpolate_property(pb, "value", pb.min_value, pb.max_value, sb_time_input.value)
-		tween.interpolate_property(pb, "modulate", PB_COLORS.begin, PB_COLORS.end, sb_time_input.value - LAST, Tween.TRANS_SINE, Tween.EASE_IN)
-		tween.interpolate_property(pb, "modulate", PB_COLORS.end, PB_COLORS.last, LAST, Tween.TRANS_LINEAR, Tween.EASE_IN, sb_time_input.value - LAST)
-		tween.start()
-	elif photo.has("error"):
-		_notify(photo.error)
-		tb_stop.emit_signal("pressed")
+	match [photo, tb_play_pause.pressed]:
+		[{"texture": var texture, ..}, true]:
+			tween.remove_all()
+			pc_info.refresh(photo)
+			tr_image.texture = texture
+			pb.max_value = sb_time_input.value
+			tween.interpolate_property(pb, "value", pb.min_value, pb.max_value, sb_time_input.value)
+			tween.interpolate_property(pb, "modulate", PB_COLORS.begin, PB_COLORS.end, sb_time_input.value - LAST, Tween.TRANS_SINE, Tween.EASE_IN)
+			tween.interpolate_property(pb, "modulate", PB_COLORS.end, PB_COLORS.last, LAST, Tween.TRANS_LINEAR, Tween.EASE_IN, sb_time_input.value - LAST)
+			tween.start()
+		[{"error": var error}, _]:
+			_notify(error)
+			tb_stop.emit_signal("pressed")
 
 
 func _seek(delta: float, is_relative := true) -> void:
