@@ -14,7 +14,6 @@ const PB_COLORS := {
 
 const PCNotification := preload("res://PexelsQD/PanelContainerNotification.tscn")
 
-var _is_first := true
 var _session: Session = null
 var _tr_image_placeholder: StreamTexture = null
 var _tr_image_alpha := {
@@ -104,8 +103,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		_on_PanelContainerInfoColorRect_gui_input(new_event)
 
 
-func _on_LineEditSearch_text_entered(new_text: String) -> void:
-	tb_play_pause.pressed = not tb_play_pause.disabled
+func _on_LineEditSearch_text_entered(_new_text: String) -> void:
+	tb_play_pause.pressed = true
+	tb_skip_forward.emit_signal("pressed")
 
 
 func _on_LineEditSearch_text_validated(new_text: String) -> void:
