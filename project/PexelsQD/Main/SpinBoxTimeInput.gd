@@ -1,6 +1,6 @@
 extends SpinBox
 
-const PATTERN := "^(\\d{1,3}) s$"
+const PATTERN := "^(\\d{1,3})$"
 
 var regex := RegEx.new()
 var old_text := ""
@@ -14,6 +14,10 @@ func _ready() -> void:
 	le.connect("text_changed", self, "_on_LineEdit_text_changed")
 	regex.compile(PATTERN)
 	old_text = le.text
+
+
+func _on_CheckBoxTime_toggled(is_button_pressed: bool) -> void:
+	min_value = 1 if is_button_pressed else 5
 
 
 func _on_LineEdit_text_changed(new_text: String) -> void:

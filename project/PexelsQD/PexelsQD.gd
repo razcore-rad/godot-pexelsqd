@@ -31,6 +31,7 @@ onready var tb_next: TextureButton = $PanelContainerIntro/CenterContainer/VBoxCo
 onready var vbc_main: VBoxContainer = $VBoxContainerMain
 onready var le_search: LineEdit = $VBoxContainerMain/HBoxContainerControls/LineEditSearch
 onready var sb_time_input: SpinBox = $VBoxContainerMain/HBoxContainerControls/SpinBoxTimeInput
+onready var cb_time: CheckButton = $VBoxContainerMain/HBoxContainerControls/CheckButtonTime
 onready var tb_back: TextureButton = $VBoxContainerMain/HBoxContainerControls/TextureButtonBack
 onready var tb_skip_back: TextureButton = $VBoxContainerMain/HBoxContainerControls/TextureButtonSkipBack
 onready var tb_rewind: TextureButton = $VBoxContainerMain/HBoxContainerControls/TextureButtonRewind
@@ -65,6 +66,7 @@ func _ready() -> void:
 	tb_back.connect("pressed", tb_play_pause, "set_pressed", [false])
 	le_search.connect("text_entered", self, "_on_LineEditSearch_text_entered")
 	le_search.connect("text_validated", self, "_on_LineEditSearch_text_validated")
+	cb_time.connect("toggled", sb_time_input, "_on_CheckBoxTime_toggled")
 	tb_skip_back.connect("pressed", self, "_seek", [0, false])
 	tb_rewind.connect("pressed", self, "_seek", [-Constants.DELTA])
 	tb_fast_forward.connect("pressed", self, "_seek", [Constants.DELTA])
@@ -147,13 +149,14 @@ func _search() -> void:
 	var photo = yield(_session.search(le_search.text), "completed")
 	match [photo, tb_play_pause.pressed]:
 		[{"texture": var texture, ..}, true]:
+			var time: float = sb_time_input.value * (60 if cb_time.pressed else 1)
 			tween.remove_all()
 			pc_info.refresh(photo)
 			tr_image.texture = texture
-			pb.max_value = sb_time_input.value
-			tween.interpolate_property(pb, "value", pb.min_value, pb.max_value, sb_time_input.value)
-			tween.interpolate_property(pb, "modulate", PB_COLORS.begin, PB_COLORS.end, sb_time_input.value - LAST, Tween.TRANS_SINE, Tween.EASE_IN)
-			tween.interpolate_property(pb, "modulate", PB_COLORS.end, PB_COLORS.last, LAST, Tween.TRANS_LINEAR, Tween.EASE_IN, sb_time_input.value - LAST)
+			pb.max_value = time
+			tween.interpolate_property(pb, "value", pb.min_value, pb.max_value, time)
+			tween.interpolate_property(pb, "modulate", PB_COLORS.begin, PB_COLORS.end, time - LAST, Tween.TRANS_SINE, Tween.EASE_IN)
+			tween.interpolate_property(pb, "modulate", PB_COLORS.end, PB_COLORS.last, LAST, Tween.TRANS_LINEAR, Tween.EASE_IN, time - LAST)
 			tween.start()
 		[{"error": var error}, _]:
 			_notify(error)
