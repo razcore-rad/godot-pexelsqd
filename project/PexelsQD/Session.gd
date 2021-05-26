@@ -49,7 +49,7 @@ func search(query: String) -> Dictionary:
 
 	var params := {
 		"base_url": PHOTO.base_url,
-		"query": query,
+		"query": query.http_escape(),
 		"page": 1 if is_first else _rng.randi_range(1, _total_results)
 	}
 
@@ -72,7 +72,7 @@ func search(query: String) -> Dictionary:
 
 	if is_first:
 		_total_results = body.result.total_results
-		return search(params.query)
+		return search(query)
 	elif _total_results > 0:
 		for photo in body.result.photos:
 			var src: String = photo.src.large2x
