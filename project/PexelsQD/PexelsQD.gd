@@ -56,12 +56,13 @@ func _ready() -> void:
 	_session = Session.new(config_file, http_request)
 	_tr_image_placeholder = tr_image.texture
 	NOTIFICATIONS.search = NOTIFICATIONS.search.format([Constants.MIN_SEARCH_LENGTH])
-	
+
 	pc_intro.connect("notified", self, "_notify")
 	tb_next.connect("pressed", vbc_main, "set_visible", [true])
 	tb_back.connect("pressed", vbc_main, "set_visible", [false])
+	tb_back.connect("pressed", tb_help, "set_pressed", [false])
+	tb_back.connect("pressed", tb_info, "set_pressed", [false])
 	tb_back.connect("pressed", pc_intro, "set_visible", [true])
-	tb_back.connect("pressed", pc_help, "set_visible", [false])
 	tb_back.connect("pressed", tb_play_pause, "set_pressed", [false])
 	le_search.connect("text_entered", self, "_on_LineEditSearch_text_entered")
 	le_search.connect("text_validated", self, "_on_LineEditSearch_text_validated")
@@ -78,11 +79,11 @@ func _ready() -> void:
 	tb_pexels.connect("pressed", OS, "shell_open", [Constants.URLS.pexels])
 	pc_info.cr.connect("gui_input", self, "_on_PanelContainerInfoColorRect_gui_input")
 	tween.connect("tween_all_completed", self, "_search")
-	
+
 	OS.min_window_size = Constants.MIN_WINDOW_SIZE
 	pc_intro.setup(config_file)
 	rtl_help.bbcode_text = rtl_help.bbcode_text.format([Constants.DELTA])
-	
+
 	var api_key: String = config_file.get_value(
 		Constants.CONFIG_FILE.section, Constants.CONFIG_FILE.key, ""
 	)
@@ -127,7 +128,7 @@ func _on_TextureButtonStop_pressed() -> void:
 
 
 func _on_PanelContainerInfoColorRect_gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("left_click"):
+	if pc_info.cr.visible and event.is_action_pressed("left_click"):
 		OS.clipboard = pc_info.html_color
 		_notify(NOTIFICATIONS.color.format([OS.clipboard]))
 
@@ -145,7 +146,7 @@ func _search() -> void:
 		_notify(NOTIFICATIONS.search)
 		tb_stop.emit_signal("pressed")
 		return
-	
+
 	var photo = yield(_session.search(le_search.text), "completed")
 	match [photo, tb_play_pause.pressed]:
 		[{"texture": var texture, ..}, true]:

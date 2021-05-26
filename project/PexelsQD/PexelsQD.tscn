@@ -437,7 +437,7 @@ anchor_right = 1.0
 margin_left = -424.0
 margin_top = 48.0
 margin_right = -18.0
-margin_bottom = 126.0
+margin_bottom = 150.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 21 )
 script = ExtResource( 10 )
@@ -449,40 +449,52 @@ __meta__ = {
 margin_left = 32.0
 margin_top = 8.0
 margin_right = 398.0
-margin_bottom = 70.0
+margin_bottom = 94.0
 
 [node name="VBoxContainer" type="GridContainer" parent="PanelContainerInfo/CenterContainer"]
-margin_top = 3.0
 margin_right = 366.0
-margin_bottom = 59.0
+margin_bottom = 86.0
 columns = 2
 
-[node name="LabelAuthor" type="Label" parent="PanelContainerInfo/CenterContainer/VBoxContainer"]
+[node name="LabelTotalResults" type="Label" parent="PanelContainerInfo/CenterContainer/VBoxContainer"]
 margin_right = 148.0
 margin_bottom = 26.0
+text = "Total Results:"
+
+[node name="LabelTotalResultsText" type="Label" parent="PanelContainerInfo/CenterContainer/VBoxContainer"]
+margin_left = 152.0
+margin_right = 366.0
+margin_bottom = 26.0
+align = 2
+
+[node name="LabelAuthor" type="Label" parent="PanelContainerInfo/CenterContainer/VBoxContainer"]
+margin_top = 30.0
+margin_right = 148.0
+margin_bottom = 56.0
 text = "Author:"
 
 [node name="RichTextLabelAuthor" type="RichTextLabel" parent="PanelContainerInfo/CenterContainer/VBoxContainer"]
 margin_left = 152.0
+margin_top = 30.0
 margin_right = 366.0
-margin_bottom = 26.0
+margin_bottom = 56.0
 rect_min_size = Vector2( 214, 0 )
 size_flags_horizontal = 3
 bbcode_enabled = true
 scroll_active = false
 
 [node name="LabelAverageColor" type="Label" parent="PanelContainerInfo/CenterContainer/VBoxContainer"]
-margin_top = 30.0
+margin_top = 60.0
 margin_right = 148.0
-margin_bottom = 56.0
+margin_bottom = 86.0
 text = "Average Color:"
 
 [node name="ColorRect" type="ColorRect" parent="PanelContainerInfo/CenterContainer/VBoxContainer"]
 visible = false
 margin_left = 340.0
-margin_top = 30.0
+margin_top = 60.0
 margin_right = 366.0
-margin_bottom = 56.0
+margin_bottom = 86.0
 rect_min_size = Vector2( 26, 26 )
 hint_tooltip = "Copy color to clipboard."
 mouse_default_cursor_shape = 2

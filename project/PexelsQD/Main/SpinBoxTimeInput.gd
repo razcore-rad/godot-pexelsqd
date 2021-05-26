@@ -1,5 +1,6 @@
 extends SpinBox
 
+const MIN_VALUES := {true: 1, false: 5}
 const PATTERN := "^(\\d{1,3})$"
 
 var regex := RegEx.new()
@@ -17,13 +18,13 @@ func _ready() -> void:
 
 
 func _on_CheckBoxTime_toggled(is_button_pressed: bool) -> void:
-	min_value = 1 if is_button_pressed else 5
+	min_value = MIN_VALUES[is_button_pressed]
 
 
 func _on_LineEdit_text_changed(new_text: String) -> void:
 	var old_caret_position := le.caret_position
 	var regex_match := regex.search(new_text)
-	
+
 	if regex_match == null:
 		le.text = old_text
 		le.caret_position = old_caret_position - 1

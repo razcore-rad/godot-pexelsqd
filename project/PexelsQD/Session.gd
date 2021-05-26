@@ -38,7 +38,7 @@ func _init(config_file: ConfigFile, http_request: HTTPRequest) -> void:
 	_config_file = config_file
 	_http_request = http_request
 	_image_funcs.jpeg = _image_funcs.jpg
-	
+
 	_rng.randomize()
 	_regex.compile(PATTERN)
 
@@ -46,30 +46,30 @@ func _init(config_file: ConfigFile, http_request: HTTPRequest) -> void:
 func search(query: String) -> Dictionary:
 	var is_first := _previous_query != query
 	_previous_query = query
-	
+
 	var params := {
 		"base_url": PHOTO.base_url,
 		"query": query,
 		"page": 1 if is_first else _rng.randi_range(1, _total_results)
 	}
-	
+
 	var api_key: String = _config_file.get_value(
 		Constants.CONFIG_FILE.section, Constants.CONFIG_FILE.key, ""
 	)
 	PHOTO.headers[-1] = PHOTO.headers[-1].format({"api_key": api_key})
 	_http_request.request(PHOTO.search.format(params), PHOTO.headers)
 	var ret: Array = yield(_http_request, "request_completed")
-	
+
 	if not _is_result_ok(ret[0], ret[1]):
 		return {"error": NOTIFICATIONS.http.format(ret)}
-	
+
 	var body := JSON.parse(ret[3].get_string_from_utf8())
 	if body.error != OK:
 		return {"error": NOTIFICATIONS.json.format([body.error, body.error_line, body.error_string])}
-	
+
 	if body.result.has("error"):
 		return {"error": NOTIFICATIONS.result.format([body.result.error])}
-	
+
 	if is_first:
 		_total_results = body.result.total_results
 		return search(params.query)
@@ -81,20 +81,21 @@ func search(query: String) -> Dictionary:
 				var type := regex_result.get_string(1)
 				_http_request.request(src)
 				ret = yield(_http_request, "request_completed")
-				
+
 				if not _is_result_ok(ret[0], ret[1]):
 					return {"error": NOTIFICATIONS.http.format(ret)}
-				
+
 				var _image := Image.new()
 				_image.call(_image_funcs[type], ret[3])
 				photo.texture = ImageTexture.new()
 				photo.texture.create_from_image(_image)
+				photo.total_results = _total_results
 				return photo
 			else:
 				return {"error": NOTIFICATIONS.unsupported.format(src)}
 	else:
 		return {"error": NOTIFICATIONS.zero.format([query])}
-	
+
 	# Function should never reach this code
 	return NOTIFICATIONS.unknown
 
