@@ -70,7 +70,7 @@ func _ready() -> void:
 	tb_skip_back.connect("pressed", self, "_seek", [0, false])
 	tb_rewind.connect("pressed", self, "_seek", [-Constants.DELTA])
 	tb_fast_forward.connect("pressed", self, "_seek", [Constants.DELTA])
-	tb_skip_forward.connect("pressed", self, "_seek", [pb.max_value])
+	tb_skip_forward.connect("pressed", self, "_seek", [sb_time_input.max_value])
 	tb_play_pause.connect("toggled", self, "_on_TextureButtonPlayPaused_toggled")
 	tb_stop.connect("pressed", self, "_on_TextureButtonStop_pressed")
 	tb_info.connect("toggled", pc_info, "set_visible")
@@ -150,11 +150,11 @@ func _search() -> void:
 	var photo = yield(_session.search(le_search.text), "completed")
 	match [photo, tb_play_pause.pressed]:
 		[{"texture": var texture, ..}, true]:
-			var time: float = sb_time_input.value * (60 if cb_time.pressed else 1)
 			tween.remove_all()
 			pc_info.refresh(photo)
 			tr_image.texture = texture
-			pb.max_value = time
+
+			var time: float = sb_time_input.value * (60 if cb_time.pressed else 1)
 			tween.interpolate_property(pb, "value", pb.min_value, pb.max_value, time)
 			tween.interpolate_property(pb, "modulate", PB_COLORS.begin, PB_COLORS.end, time - LAST, Tween.TRANS_SINE, Tween.EASE_IN)
 			tween.interpolate_property(pb, "modulate", PB_COLORS.end, PB_COLORS.last, LAST, Tween.TRANS_LINEAR, Tween.EASE_IN, time - LAST)
