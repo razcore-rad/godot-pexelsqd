@@ -13,6 +13,10 @@ I'm using:
 
 You need your own [Pexels API-KEY](//www.pexels.com/api/). You can get one for free by registering at Pexels.
 
+## Download
+
+Go to the [Releases](https://github.com/razcore-art/godot-pexelsqd/releases) page and download the appropriate binary based on your operating system.
+
 ## Demo
 
 https://user-images.githubusercontent.com/1177508/119489007-dea99600-bd63-11eb-8085-84ae7eacdecb.mp4
