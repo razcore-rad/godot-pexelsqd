@@ -516,9 +516,9 @@ visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 16.0
-margin_top = -396.0
+margin_top = -424.0
 margin_right = 472.0
-margin_bottom = -16.0
+margin_bottom = -14.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 21 )
 __meta__ = {
@@ -529,7 +529,7 @@ __meta__ = {
 margin_left = 32.0
 margin_top = 8.0
 margin_right = 448.0
-margin_bottom = 372.0
+margin_bottom = 402.0
 rect_min_size = Vector2( 214, 0 )
 size_flags_horizontal = 3
 bbcode_enabled = true
@@ -544,10 +544,11 @@ bbcode_text = "[table=2]
 [cell][code]SHIFT + H[/code][/cell][cell][right]Rewind to start[/right][/cell]
 [cell][code]SHIFT + L[/code][/cell][cell][right]Fast-forward to end[/right][/cell]
 [cell][code]I[/code][/cell][cell][right]Toggle info panel[/right][/cell]
-[cell][code]C[/code][/cell][cell][right]Copy image average color[/right][/cell]
+[cell][code]C[/code][/cell][cell][right]Copy photo URL[/right][/cell]
+[cell][code]SHIFT + C[/code][/cell][cell][right]Copy image average color[/right][/cell]
 [cell][code]CTRL + Q[/code][/cell][cell][right]Quit[/right][/cell]
 [/table]"
-text = "ShortcutActionCTRL + /This help windowCTRL + SToggle search text-box focusHRewind {0}sLFast-forward {0}sCTRL + HBack to API-KEY screenCTRL + LTo play screenSHIFT + HRewind to startSHIFT + LFast-forward to endIToggle info panelCCopy image average colorCTRL + QQuit"
+text = "ShortcutActionCTRL + /This help windowCTRL + SToggle search text-box focusHRewind {0}sLFast-forward {0}sCTRL + HBack to API-KEY screenCTRL + LTo play screenSHIFT + HRewind to startSHIFT + LFast-forward to endIToggle info panelCCopy photo URLSHIFT + CCopy image average colorCTRL + QQuit"
 fit_content_height = true
 scroll_active = false
 
