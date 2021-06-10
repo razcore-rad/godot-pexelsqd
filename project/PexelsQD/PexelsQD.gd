@@ -3,7 +3,7 @@ extends Control
 const NOTIFICATIONS := {
 	"filesystem": "ERROR\nCan't open the config file!",
 	"search": "ERROR\nStopping! Search string has less than {0} letters.",
-	"color": "{0} copied to clipboard."
+	"copy": "{0} copied to clipboard."
 }
 const LAST := 3
 const PB_COLORS := {
@@ -15,6 +15,7 @@ const PB_COLORS := {
 const PCNotification := preload("res://PexelsQD/PanelContainerNotification.tscn")
 
 var _session: Session = null
+var _photo := {}
 var _tr_image_placeholder: StreamTexture = null
 var _tr_image_alpha := {
 	true: 1,
@@ -77,7 +78,9 @@ func _ready() -> void:
 	tb_help.connect("toggled", pc_help, "set_visible")
 	tb_razcore.connect("pressed", OS, "shell_open", [Constants.URLS.razcore])
 	tb_pexels.connect("pressed", OS, "shell_open", [Constants.URLS.pexels])
+	pc_info.rtl_photo.connect("gui_input", self, "_on_PanelContainerInfoRichTextLabelPhoto_gui_input")
 	pc_info.cr.connect("gui_input", self, "_on_PanelContainerInfoColorRect_gui_input")
+	tr_image.connect("gui_input", self, "_on_TextureRectImage_gui_input")
 	tween.connect("tween_all_completed", self, "_search")
 
 	OS.min_window_size = Constants.MIN_WINDOW_SIZE
@@ -102,6 +105,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		new_event.action = "left_click"
 		new_event.pressed = true
 		_on_PanelContainerInfoColorRect_gui_input(new_event)
+	elif event.is_action_pressed("ui_info_copy"):
+		var new_event := InputEventAction.new()
+		new_event.action = "right_click"
+		new_event.pressed = true
+		_on_PanelContainerInfoRichTextLabelPhoto_gui_input(new_event)
 
 
 func _on_LineEditSearch_text_entered(_new_text: String) -> void:
@@ -127,10 +135,24 @@ func _on_TextureButtonStop_pressed() -> void:
 	tween.remove_all()
 
 
+func _on_PanelContainerInfoRichTextLabelPhoto_gui_input(event: InputEvent) -> void:
+	if _photo.has("url") and pc_info.cr.color.a != 0 and event.is_action_pressed("right_click"):
+		OS.clipboard = _photo.url
+		_notify((NOTIFICATIONS.copy.format([OS.clipboard])))
+
+
 func _on_PanelContainerInfoColorRect_gui_input(event: InputEvent) -> void:
-	if pc_info.cr.visible and event.is_action_pressed("left_click"):
+	if pc_info.cr.color.a != 0 and event.is_action_pressed("left_click"):
 		OS.clipboard = pc_info.html_color
-		_notify(NOTIFICATIONS.color.format([OS.clipboard]))
+		_notify(NOTIFICATIONS.copy.format([OS.clipboard]))
+
+
+func _on_TextureRectImage_gui_input(event: InputEvent) -> void:
+	if event.is_action_pressed("left_click"):
+		var new_event := InputEventAction.new()
+		new_event.action = "right_click"
+		new_event.pressed = true
+		_on_PanelContainerInfoRichTextLabelPhoto_gui_input(new_event)
 
 
 func _load_config() -> ConfigFile:
@@ -147,11 +169,11 @@ func _search() -> void:
 		tb_stop.emit_signal("pressed")
 		return
 
-	var photo = yield(_session.search(le_search.text), "completed")
-	match [photo, tb_play_pause.pressed]:
+	_photo = yield(_session.search(le_search.text), "completed")
+	match [_photo, tb_play_pause.pressed]:
 		[{"texture": var texture, ..}, true]:
 			tween.remove_all()
-			pc_info.refresh(photo)
+			pc_info.refresh(_photo)
 			tr_image.texture = texture
 
 			var time: float = sb_time_input.value * (60 if cb_time.pressed else 1)
